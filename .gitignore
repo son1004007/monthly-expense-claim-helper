@@ -1,0 +1,56 @@
+# Local source data
+data/
+input/
+inputs/
+receipts/
+local/
+.local/
+
+# Generated run artifacts
+runs/
+output/
+outputs/
+tmp/
+temp/
+
+# Expense source files and receipt images
+*.xls
+*.xlsx
+*.xlsm
+*.csv
+*.tsv
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.pdf
+
+# Office temporary/lock files
+~$*
+.~lock.*
+
+# Secrets and browser/session state
+.env
+.env.*
+*.secret
+*.token
+cookies.json
+storage-state.json
+playwright/.auth/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
