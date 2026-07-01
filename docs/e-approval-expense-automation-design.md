@@ -43,22 +43,18 @@
 사용자는 월별 자료를 아래와 같은 사내 NAS 폴더에 수동으로 넣는다.
 
 ```text
-D:\02_nas\onycom\01_월초청구서\26년7월 월초청구서
+D:\02_nas\onycom\01_월초청구서\YYYY년M월 월초청구서
 ```
 
 현재 확인된 파일 구성 예시는 다음과 같다.
 
 ```text
+01_근태확인.txt
+교통사용_내역.xlsx
 교통사용_내역.xls
-야근식대.txt
-14483.jpg
-14484.jpg
-14485.jpg
-14486.jpg
-14487.jpg
-14488.jpg
-14489.jpg
-14490.jpg
+야근 식대 {일}일.jpg
+외근 식대 {일}일.jpg
+교통사용_내역_택시{번호}.jpg
 ```
 
 주의 사항:
@@ -83,10 +79,10 @@ https://office.onycom.com/app/approval/document/new/32/939
 | --- | --- |
 | 문서 유형 | 지출결의서(개인경비) |
 | 제목 | 지출결의서(개인경비) |
-| 결의자 | 손기석 |
+| 결의자 | 기안자 |
 | 소속 | 기술개발팀 |
 | 직위 | 차장 |
-| 결재선 | 손기석 → 김정호 → 류정우 → 지소라 → 박진영 |
+| 결재선 | 기안자 → 1차 결재자 → 2차 결재자 → 회계 담당자 → 최종 결재자 |
 | 상세 행 | 지출일, 대상, PJT 약칭, PJT 코드, 계정구분, 계정과목, 계정항목, 금액, 상세내역 |
 | 첨부 | 교통사용 내역 파일, 영수증 이미지 |
 
@@ -98,7 +94,7 @@ https://office.onycom.com/app/approval/document/new/32/939
 | --- | --- | --- | --- |
 | 제목 | `#subject` | `지출결의서(개인경비)` | 기본값 유지 |
 | 지출일 | `#dynamic_table1_{row}_1` | `2026-06-25(목)` | 행별 입력 |
-| 대상 | `#dynamic_table1_{row}_2` | `손기석` | 기본값 또는 입력값 |
+| 대상 | `#dynamic_table1_{row}_2` | `기안자` | 기본값 또는 입력값 |
 | PJT 약칭 | `#dynamic_table1_{row}_3` | `인천공항_데이터 분석서비스` | 프로젝트 코드 매핑 필요 |
 | PJT 코드 | `#dynamic_table1_{row}_4` | `BDBXX-XXXXX` | 프로젝트 코드 매핑 필요 |
 | 계정구분 | `#dynamic_table1_{row}_9` | `판관비` | select |
@@ -118,7 +114,7 @@ https://office.onycom.com/app/approval/document/new/32/939
 {
   "claim_month": "2026-07",
   "expense_date": "2026-06-25",
-  "target": "손기석",
+  "target": "기안자",
   "project_alias": "프로젝트A",
   "project_code": "BDBXX-XXXXX",
   "account_group": "판관비",
@@ -142,7 +138,7 @@ https://office.onycom.com/app/approval/document/new/32/939
 {
   "claim_month": "2026-07",
   "expense_date": "2026-06-25",
-  "target": "손기석",
+  "target": "기안자",
   "project_alias": "프로젝트B",
   "project_code": "BDBXX-YYYYY",
   "account_group": "판관비",
@@ -166,7 +162,7 @@ https://office.onycom.com/app/approval/document/new/32/939
 {
   "claim_month": "2026-07",
   "expense_date": "2026-06-05",
-  "target": "손기석",
+  "target": "기안자",
   "account_group": "판관비",
   "account_subject": "여비교통비",
   "account_item": "업무교통비",
