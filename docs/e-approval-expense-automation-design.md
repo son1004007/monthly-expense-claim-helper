@@ -201,10 +201,12 @@ https://office.onycom.com/app/approval/document/new/32/939
 
 ### 7.2 주말/개인 이동 검토
 
-주말, 공휴일, 연차, 반차일의 이동은 자동으로 청구 여부를 확정하지 않는다.
+주말, 공휴일, 연차, 반차일의 이동은 근태 메모와 결합해서 청구 가능 여부를 판단한다.
 
-- 기본 상태는 `review_required`로 표시한다.
-- 자동 입력 대상에서는 제외한다.
+- 주말/공휴일이고 근태 메모에 `주말출근`, `휴일근무`, `외근` 등 출근 근거가 있으면 `claimable`로 둔다.
+- 주말/공휴일인데 근태 메모에 출근 근거가 없으면 `exception_weekend_no_attendance`로 표시한다.
+- 연차/반차일 이동은 `review_required`로 표시한다.
+- `exception_weekend_no_attendance`, `review_required`는 자동 입력 대상에서 제외한다.
 - 사용자가 미리보기에서 삭제하거나 승인한 항목만 최종 입력 대상으로 전환한다.
 
 ### 7.3 근태 메모 활용
@@ -221,6 +223,7 @@ https://office.onycom.com/app/approval/document/new/32/939
 - 외근일: 교통비 청구 후보가 외근일 이동인지 검증한다.
 - 야근일: 야근식대 상세내역에 퇴근 시간을 입력한다.
 - 연차/반차일: 교통 이동을 `review_required`로 표시한다.
+- 주말/공휴일: 출근 근거가 없는 대중교통 이동을 `exception_weekend_no_attendance`로 표시한다.
 
 사용자 입력 예시는 `config/attendance-notes.example.md`에 둔다. 실제 월별 근태 메모는 `local/attendance/YYYY-MM.md` 또는 `attendance-notes/YYYY-MM.md`에 작성하고 Git에 올리지 않는다.
 
@@ -313,7 +316,7 @@ python -m expense_claim build --raw runs/2026-07/raw-items.json --project-codes 
 - 합계 금액 계산
 - 첨부파일 누락 확인
 - 중복 파일 해시 확인
-- `claimable`, `excluded_commute`, `review_required` 상태 부여
+- `claimable`, `excluded_commute`, `review_required`, `exception_weekend_no_attendance` 상태 부여
 
 출력 예시:
 
@@ -332,7 +335,8 @@ runs/2026-07/claim-preview.md
 - 프로젝트 코드가 맞는지
 - 계정과목/계정항목이 맞는지
 - 출퇴근 제외 구간이 입력 대상에서 빠졌는지
-- 연차/반차/주말 이동이 검토 대상으로 분리됐는지
+- 주말/공휴일 이동 중 출근 근거가 없는 항목이 예외 대상으로 분리됐는지
+- 연차/반차 이동이 검토 대상으로 분리됐는지
 - 외근 교통비 상세내역이 승하차 내용으로 작성됐는지
 - 야근식대 상세내역이 퇴근 시간으로 작성됐는지
 - 금액 합계가 영수증/교통사용 내역과 맞는지
@@ -357,7 +361,7 @@ python -m expense_claim fill `
 - 제목 기본값 확인
 - 필요한 행 수 확인 후 부족하면 행 추가
 - `claimable` 상태의 상세 행만 입력
-- `excluded_commute`, `review_required` 상태의 행은 입력하지 않고 미리보기에서만 표시
+- `excluded_commute`, `review_required`, `exception_weekend_no_attendance` 상태의 행은 입력하지 않고 미리보기에서만 표시
 - 합계가 화면 합계와 일치하는지 확인
 - 첨부파일 업로드 전 사용자 확인
 - 결재요청은 수행하지 않고 입력 완료 상태에서 멈춤
@@ -475,7 +479,8 @@ monthly-expense-claim-helper/
 | 금액 파싱 실패 | 원문과 함께 오류 표시 |
 | 첨부 이미지 부족 | 경고 표시, 사용자 확인 전 입력 중단 |
 | 출퇴근 제외 구간 | `excluded_commute`로 표시하고 자동 입력 제외 |
-| 주말/연차/반차일 이동 | `review_required`로 표시하고 자동 입력 제외 |
+| 주말/공휴일인데 출근 근거가 없는 이동 | `exception_weekend_no_attendance`로 표시하고 자동 입력 제외 |
+| 연차/반차일 이동 | `review_required`로 표시하고 자동 입력 제외 |
 | 야근식대 퇴근시간 없음 | `review_required`로 표시하고 자동 입력 제외 |
 | 전자결재 화면 아님 | 자동 입력 중단 |
 | 필드 ID 변경 | DOM 스냅샷 저장 후 매핑 갱신 필요 |
@@ -500,7 +505,7 @@ monthly-expense-claim-helper/
 5. 입력 폴더 스캐너 구현
 6. 교통사용 내역 `.xls` 파서 구현
 7. `야근식대.txt` 파서 구현
-8. 출퇴근 제외 및 검토 필요 상태 분류 구현
+8. 출퇴근 제외, 주말 출근 근거, 검토 필요 상태 분류 구현
 9. `claim-preview.md` 생성기 구현
 10. 전자결재 화면 필드 검증 스크립트 구현
 11. dry-run 입력 계획 출력 구현
