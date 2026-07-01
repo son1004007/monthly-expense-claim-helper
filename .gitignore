@@ -5,6 +5,8 @@ inputs/
 receipts/
 local/
 .local/
+attendance/
+attendance-notes/
 
 # Generated run artifacts
 runs/
@@ -33,6 +35,10 @@ temp/
 # Secrets and browser/session state
 .env
 .env.*
+config/*.local.ini
+config/*.local.yml
+local*.ini
+local*.yml
 *.secret
 *.token
 cookies.json
@@ -53,4 +59,3 @@ venv/
 Thumbs.db
 .idea/
 .vscode/
-

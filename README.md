@@ -13,4 +13,4 @@
 ## 문서
 
 - [전자결재 개인경비 자동화 설계서](docs/e-approval-expense-automation-design.md)
-
+- [입력 포맷 및 검토 규칙](docs/input-format-and-review-rules.md)
